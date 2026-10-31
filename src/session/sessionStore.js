@@ -4,7 +4,7 @@ import { now } from '../utils/time.js';
 const sessions = new Map();
 
 export function createSession(userId, ttlSeconds) {
-  const session = { id: crypto.randomUUID(), userId, expiresAt: now() + ttlSeconds };
+  const session = { id: crypto.randomUUID(), userId, expiresAt: now() + ttlSeconds * 1000 };
   sessions.set(session.id, session);
   return session;
 }
