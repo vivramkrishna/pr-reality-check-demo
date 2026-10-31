@@ -2,7 +2,8 @@ import { validate } from '../auth/authService.js';
 import { REQUEST_TIMEOUT_MS } from '../config.js';
 
 export function requireAuth(req) {
-  const sessionId = req.headers?.authorization?.replace(/^Bearer /, '');
+  const [scheme, token] = String(req.headers?.authorization ?? '').trim().split(/\s+/);
+  const sessionId = scheme?.toLowerCase() === 'bearer' ? token : undefined;
   return validate(sessionId);
 }
 
