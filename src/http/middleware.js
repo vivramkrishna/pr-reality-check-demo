@@ -8,8 +8,10 @@ export function requireAuth(req) {
 
 export function withTimeout(handler) {
   return async (req) => {
-    const timer = new Promise((_, reject) =>
-      setTimeout(() => reject(new Error('504 Timeout')), REQUEST_TIMEOUT_MS).unref());
-    return Promise.race([handler(req), timer]);
+    let timeoutId;
+    const timer = new Promise((_, reject) => {
+      timeoutId = setTimeout(() => reject(new Error('504 Timeout')), REQUEST_TIMEOUT_MS);
+    });
+    return Promise.race([handler(req), timer]).finally(() => clearTimeout(timeoutId));
   };
 }
