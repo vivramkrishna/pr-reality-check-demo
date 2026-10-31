@@ -3,8 +3,9 @@ import { checkPassword } from './passwords.js';
 import { SESSION_TTL_SECONDS } from '../config.js';
 
 export function login(username, password) {
-  if (!checkPassword(username, password)) throw new Error('401 Invalid credentials');
-  return createSession(username, SESSION_TTL_SECONDS);
+  const user = String(username ?? '').trim().toLowerCase();
+  if (!checkPassword(user, password)) throw new Error('401 Invalid credentials');
+  return createSession(user, SESSION_TTL_SECONDS);
 }
 
 export function validate(sessionId) {
