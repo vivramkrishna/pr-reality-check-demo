@@ -2,7 +2,9 @@ import { validate } from '../auth/authService.js';
 import { REQUEST_TIMEOUT_MS } from '../config.js';
 
 export function requireAuth(req) {
-  const sessionId = req.headers?.authorization?.replace(/^Bearer /, '');
+  // RFC 7235: the auth scheme is case-insensitive ("Bearer", "bearer", "BEARER").
+  const header = String(req.headers?.authorization ?? '');
+  const sessionId = header.replace(/^bearer\s+/i, '').trim();
   return validate(sessionId);
 }
 
