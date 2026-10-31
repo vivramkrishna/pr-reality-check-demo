@@ -11,3 +11,8 @@ test('isExpired is false for a fresh session', () => {
   const s = createSession('demo', 3600);
   assert.equal(isExpired(s), false);
 });
+
+test('session TTL is in seconds (regression for #1)', () => {
+  const s = createSession('demo', 60);
+  assert.ok(s.expiresAt - Date.now() > 59_000);
+});
