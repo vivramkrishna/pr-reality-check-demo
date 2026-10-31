@@ -1,0 +1,2 @@
+export const SESSION_TTL_SECONDS = 3600;
+export const REQUEST_TIMEOUT_MS = 5000;
